@@ -21,17 +21,17 @@ ul {
 }
 
 .txtTituloNV {
-  font-size: 24px;
+  font-size: 18px;
   color: black;
 }
 
 .txtAutorNV {
-  font-size: 20px;
+  font-size: 15px;
   color:#ee5656;
 }
 
 .txtFechaNV {
-  font-size: 20px;
+  font-size: 15px;
   color:#ee5656;
 }
 
@@ -711,9 +711,6 @@ h3.tittle.find {
 }
 
 /*------------------------------ PANEL EDICION --------------------------*/
-
-.panelEdicion {
-}
 
 .divColumn {
   margin-left: 20%;

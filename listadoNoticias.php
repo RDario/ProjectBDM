@@ -15,7 +15,7 @@
 	<div class="panelEdicion">
 		<div class="container">
 			<div class="divColumn">
-				<h3>Noticias sin publicar</h3>
+				<h3>Noticias pendientes por publicar</h3>
 				<br>
 				<div class="listaNoticias">
 					<ul class="ulListaNoticias">
