@@ -20,15 +20,15 @@
                         <div class="divSeccion">
                             <h2 class="tituloSeccion">Nacional</h2>
                         </div>
-                        <div class="divNoticia">	
+                        <div class="divNoticia">
                             <img class="imgNoticia" src="images/pic.jpg" alt="imgNiggas" />
                             <div class="datosNoticia">
                                 <span class="txtTitulo">Lorem ipsum dolor sit amet,interdum ullamcorper consectetur </span>
                                 <p class="txtDescripcion">Nulla quis lorem neque, mattis venenatis lectus. In interdum ullamcorper dolor eu mattis.</p>
                                 <a class="leerMas" href="noticiaDetalle.php">Leer mas</a>
-                            </div>					
+                            </div>
                         </div>
-                        <!--//end-section-->				
+                        <!--//end-section-->
                     </div>
 
                     <div class="col-md-4 mag-inner-right">

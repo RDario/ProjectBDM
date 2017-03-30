@@ -133,6 +133,20 @@ label{
   color: #fff;
 }
 
+#divCuadroPerfil{
+  text-align: center;
+  float: right;
+}
+
+#imgCuadroPerfil{
+  width: wrap;
+  height: wrap;
+}
+
+#txtCuadroPerfil {
+  font-size: 24px;
+}
+
 /*------------------------------ MAIN CONTENT --------------------------*/
 
 h3.tittle,h2.tittle, h2.tituloSeccion {

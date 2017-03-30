@@ -10,8 +10,8 @@ $connection = conectarBD();
 	<meta http-equiv="refresh" content="10, URL='index.php'">
 </head>
 <body>
-<br>
-<br>
+	<br>
+	<br>
 	<?php
 	$campoNombre = $_POST['txtNombre'];
 	$campoApellidos = $_POST['txtApellidos'];
@@ -21,23 +21,25 @@ $connection = conectarBD();
 	$campoNacMes = $_POST['txtNacMes'];
 	$campoNacAnio = $_POST['txtNacAnio'];
 	$campoTelefono = $_POST['txtTelefono'];
+	$campoTipoU = $_POST['txtTipoUsuario'];
+	if ($campoTipoU == NULL) {
+		$campoTipoU = 'Normal';
+	}
 	$campoNacimiento = $campoNacDia."-".$campoNacMes."-".$campoNacAnio;
 
-	$insertUsuario = "INSERT into usuario values (
-	'',
-	'$campoNombre', 
+	$queryInsert = "CALL insertUsuario(
+	'$campoNombre',
 	'$campoApellidos',
-	'$campoEmail', 
-	'$campoContrasenia', 
-	'$campoTelefono', 
+	'$campoEmail',
+	'$campoContrasenia',
+	'$campoTelefono',
 	'$campoNacimiento',
-	'Administrador',
-	'',
-	'')";
+	'$campoTipoU')";
 
-	$resultQuery = mysqli_query($connection, $insertUsuario) or die ("Hubo un error al insertar el registro");
+	$resultQuery = mysqli_query($connection, $queryInsert) or die ("Hubo un error al insertar el registro");
 	mysqli_close($connection);
-	echo "Se añadió registro exitosamente. Redirigiendose a index.php";
+	echo "Se añadió registro exitosamente. Redirigiendose a";
 	?>
+	<a href="registro_success_page.php">feiknews.com</a>
 </body>
 </html>

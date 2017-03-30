@@ -1,3 +1,6 @@
+<?php
+SESSION_START();
+?>
 <!DOCTYPE HTML>
 <?  error_reporting(E_ALL); ?>
 <html>
@@ -17,20 +20,31 @@
 						<a class="navbar-brand" href="index.php"><h1><span>FEIK</span>NEWS</h1></a>
 					</div>
 					<!--/.header-->
-
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-						<li><a href="fashion.html">Nacional</a></li>
-						<li><a href="sports.html">Deportes</a></li>
-						<li><a href="typography.html">Sobre nosotros</a></li>
-						<li><a href="typography.html">Contacto</a></li>
-						<li><a href="perfil.php">Mi cuenta</a></li>
+							<li><a href="fashion.html">Nacional</a></li>
+							<li><a href="sports.html">Deportes</a></li>
+							<li><a href="typography.html">Sobre nosotros</a></li>
+							<li><a href="typography.html">Contacto</a></li>
+							<li><a href="perfil.php">Mi cuenta</a></li>
 						</ul>
-					</div>
-					<!--/.header-->
+						<div id="divCuadroPerfil">
+							<span id="txtCuadroPerfil">
+								<?php
+								if (isset($_SESSION["nombreULog"])) { 
+									$nomUser = $_SESSION["nombreULog"]; ?>
+									<a id="txtCuadroPerfil" href="registro-login.php">Hola <?php echo "$nomUser"; ?><a/>
+										<?php } else {
+											print_r('<a href="registro-login.php">Inicia sesión aquí<a/>');
+										} ?>
+									</span>
+									<img id="imgCuadroPerfil" src="/images/avatar.jpg" >
+								</div>
+							</div>
+							<!--/.header-->
+						</div>
+					</nav>
 				</div>
-			</nav>
-		</div>
-	</div>
-</body>
-</html>
+			</div>
+		</body>
+		</html>
