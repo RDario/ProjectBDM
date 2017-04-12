@@ -22,23 +22,26 @@ SESSION_START();
 					<!--/.header-->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-							<li><a href="fashion.html">Nacional</a></li>
-							<li><a href="sports.html">Deportes</a></li>
-							<li><a href="typography.html">Sobre nosotros</a></li>
-							<li><a href="typography.html">Contacto</a></li>
-							<li><a href="perfil.php">Mi cuenta</a></li>
+							<?php
+							if (isset($_SESSION["tipoULog"])) {
+								$tipoUser = $_SESSION["tipoULog"];
+								if (strcmp($tipoUser, "Administrador") == 0 || strcmp($tipoUser, "Reportero") == 0) {
+									print_r('<li><a href="panelNoticia.php">Subir noticia</a></li>
+											<li><a href="listadoNoticias.php">Noticias sin publicar</a></li>');
+								}
+							} ?>
 						</ul>
 						<div id="divCuadroPerfil">
 							<span id="txtCuadroPerfil">
 								<?php
-								if (isset($_SESSION["nombreULog"])) { 
+								if (isset($_SESSION["nombreULog"])) {
 									$nomUser = $_SESSION["nombreULog"]; ?>
-									<a id="txtCuadroPerfil" href="registro-login.php">Hola <?php echo "$nomUser"; ?><a/>
+									<a id="txtCuadroPerfil" href="perfil.php">Hola <?php echo "$nomUser"; ?><a/>
 										<?php } else {
 											print_r('<a href="registro-login.php">Inicia sesión aquí<a/>');
 										} ?>
 									</span>
-									<img id="imgCuadroPerfil" src="/images/avatar.jpg" >
+									<img id="imgCuadroPerfil" src="images/avatar.jpg" style="width: 50px; height: 50px;" >
 								</div>
 							</div>
 							<!--/.header-->
