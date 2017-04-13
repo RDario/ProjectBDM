@@ -1,5 +1,47 @@
+<?php
+error_reporting(E_ALL); 
+$idNoticia = $_GET['id'];
+include("conexionBD.php");
+require_once "DVNoticia.php";
+require_once "DVSeccion.php";
+$idNoticia = $_GET['id'];
+$connection = conectarBD();
+$querySelect = "CALL obtenerNoticiaCompletaById('$idNoticia')";
+$resultQuery = mysqli_query($connection, $querySelect) or die (mysqli_error($connection));
+
+if ($resultQuery->num_rows) {
+	$rows = $resultQuery->fetch_all(MYSQLI_ASSOC);
+	foreach ($rows as $row) {
+		$noticiaComplete = new DVNoticia(
+			$row['idNoticia'],
+			$row['titulo'],
+			$row['descripcion'],
+			$row['seccion'],
+			$row['idSeccion'],
+			$row['fecha'],
+			$row['texto'],
+			$row['autor'],
+			$row['idUsuario'],
+			$row['isPublica']);
+	}
+}
+mysqli_next_result($connection);
+$querySeccion = "CALL obtenerSecciones()";
+$resultQuery = mysqli_query($connection, $querySeccion) or die ("Hubo un error al consultar la base de datos");
+mysqli_close($connection);
+
+$arraySecciones = array();
+if ($resultQuery->num_rows) {
+	$rows = $resultQuery->fetch_all(MYSQLI_ASSOC);
+	foreach ($rows as $row) {
+		$arraySecciones[count($arraySecciones)] = new DVSeccion(
+			$row['idSeccion'], 
+			$row['nombreSeccion'], 
+			$row['idUsuario']);
+	}
+}
+?>
 <!DOCTYPE HTML>
-<?  error_reporting(E_ALL); ?>
 <html>
 <head>
 	<title>Editar noticia</title>
@@ -7,217 +49,92 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Noticias, Web Noticias, Telediario" />
 </head>
-<body>
+<body onload="getSeccion()">
 	<?php
 	include_once("header.php");
 	?>
-	
 	<div class="panelEdicion">
 		<div class="container">
 			<div class="divColumn">
 				<h3>Editar noticia</h3>
-				<form>
+				<form action="noticia_success_page.php" method="POST">
 					<div class="address">
 						<span>Validar noticia</span>
 						<select class= "selectValidacion" name="txtValidacion" tabindex="9" required="">
-							<option>Si</option>
-							<option>No</option>	
+							<?php
+							if (isset($_SESSION["tipoULog"])) {
+								$tipoUser = $_SESSION["tipoULog"];
+								if (strcmp($tipoUser, "Administrador") == 0) { 
+									if (strcmp($noticiaComplete->isPublica, "0") == 0) { ?>
+									<option value="1">Si</option>
+									<option value="0" selected>No</option>
+									<?php } ?>
+								<?php } else { ?>
+								<option value="0">No</option>
+								<?php }
+							} ?>	
 						</select>
 					</div>
 					<div class="address">
 						<span>Título</span>
-						<input class="inpTitulo" type="text" name="txtTitulo" autofocus="true" required="" value="Peña se suicida con ahorcamiento erotico">
+						<input class="inpTitulo" type="text" name="txtTitulo" autofocus="true" required="" value="<?php echo $noticiaComplete->titulo; ?>">
 					</div>
 					<div class="address">
 						<span>Sección</span>
-						<select class= "selectSeccion" name="txtSeccion" tabindex="1" required="">
-							<option>Negocios</option>
-							<option>Internacional</option>
-							<option>Videojuegos</option>
-							<option>Niggas in da 'hood</option>
-						</select>
-					</div>
-					<div class="address">
-						<span>Descripción breve</span>
-						<textarea type="text" name="txtDescripcion" tabindex="2">Hallan el cuerpo de Lord Peña en un motel del Estado de México se cree que la causa del deceso fue por ahorcamiento erotico.</textarea>
-					</div>
-					<div class="address">
+						<select id="campoIdSeccion" class= "selectSeccion" name="txtIdSeccion" tabindex="1" required="" onchange="getSeccion()">
+							<?php
+							for ($i=0; $i < count($arraySecciones); $i++) { 
+								$elemento = $arraySecciones[$i];
+								if (strcmp($noticiaComplete->idSeccion, $elemento->idSeccion) == 0) { ?>
+								<option value="<?php echo $elemento->idSeccion; ?>" selected><?php echo $elemento->nombreSeccion; ?></option>
+								<?php } else { ?>
+								<option value="<?php echo $elemento->idSeccion; ?>"><?php echo $elemento->nombreSeccion; ?></option>
+								<?php }
+							} ?>
+							</select>
+							<input id="campoTextSeccion" class="inpAutor" type="hidden" name="txtSeccion" required="">
+						</div>
+						<div class="address">
+							<span>Descripción breve</span>
+							<textarea type="text" name="txtDescripcion" tabindex="2"><?php echo $noticiaComplete->descripcion; ?></textarea>
+						</div>
+						<div class="address">
+							<span>Autor</span>
+							<input class="inpAutor" type="text" name="txtAutor" tabindex="6" required="" readOnly="" value="<?php echo $noticiaComplete->autor; ?>">
+							<input class="inpAutor" type="hidden" name="txtIdAutor" tabindex="7" required="" readOnly="" value="<?php echo $noticiaComplete->idUsuario; ?>">
+						</div>					
+						<div class="address">
+							<span>Texto completo</span>
+							<textarea class="textareaTexto" type="text" tabindex="8" name="txtDescripcion" rows="20" required=""><?php echo $noticiaComplete->textoCompleto; ?></textarea>
+						</div>
+						<div class="address new">
+							<input name="inpGuardarNoti" type="submit" value="Actualizar" tabindex="9">
+						</div>
+					<!-- 		<div class="address">
 						<span>Elige una o varias imágenes</span>
 						<input type="file" accept="image/*" name="inpImgNoti" multiple />
 					</div>
 					<div class="address">
 						<span>Elige uno o varios vídeos</span>
 						<input type="file" accept="video/*" name="inpVideoNoti" multiple />
-					</div>
-					<div class="address">
-						<span>Fecha de publicación</span>
-						<select name="txtNacDia" tabindex="3" required="">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
-							<option>6</option>
-							<option>7</option>
-							<option>8</option>
-							<option>9</option>
-							<option>10</option>
-							<option>11</option>
-							<option>12</option>
-							<option>13</option>
-							<option>14</option>
-							<option>15</option>
-							<option>16</option>
-							<option>17</option>
-							<option>18</option>
-							<option>19</option>
-							<option>20</option>
-							<option>21</option>
-							<option>22</option>
-							<option>23</option>
-							<option>24</option>
-							<option>25</option>
-							<option>26</option>
-							<option>27</option>
-							<option>28</option>
-							<option>29</option>
-							<option>30</option>
-							<option>31</option>
-						</select>
-						<select name="txtNacMes" tabindex="4" required="">
-							<option>Enero</option>
-							<option>Febrero</option>
-							<option>Marzo</option>
-							<option>Abril</option>
-							<option>Mayo</option>
-							<option>Junio</option>
-							<option>Julio</option>
-							<option>Agosto</option>
-							<option>Septiembre</option>
-							<option>Octubre</option>
-							<option>Noviembre</option>
-							<option>Diciembre</option>
-						</select>
-						<select name="txtNacAnio" tabindex="5" required="">
-							<option>2017</option>
-							<option>2016</option>
-							<option>2015</option>
-							<option>2014</option>
-							<option>2013</option>
-							<option>2012</option>
-							<option>2011</option>
-							<option>2010</option>
-							<option>2009</option>
-							<option>2008</option>
-							<option>2007</option>
-							<option>2006</option>
-							<option>2005</option>
-							<option>2004</option>
-							<option>2003</option>
-							<option>2002</option>
-							<option>2001</option>
-							<option>2000</option>
-							<option>1999</option>
-							<option>1998</option>
-							<option>1997</option>
-							<option>1996</option>
-							<option>1995</option>
-							<option>1994</option>
-							<option>1993</option>
-							<option>1992</option>
-							<option>1991</option>
-							<option>1990</option>
-							<option>1989</option>
-							<option>1988</option>
-							<option>1987</option>
-							<option>1986</option>
-							<option>1985</option>
-							<option>1984</option>
-							<option>1983</option>
-							<option>1982</option>
-							<option>1981</option>
-							<option>1980</option>
-							<option>1979</option>
-							<option>1978</option>
-							<option>1977</option>
-							<option>1976</option>
-							<option>1975</option>
-							<option>1974</option>
-							<option>1973</option>
-							<option>1972</option>
-							<option>1971</option>
-							<option>1970</option>
-							<option>1969</option>
-							<option>1968</option>
-							<option>1967</option>
-							<option>1966</option>
-							<option>1965</option>
-							<option>1964</option>
-							<option>1963</option>
-							<option>1962</option>
-							<option>1961</option>
-							<option>1960</option>
-							<option>1959</option>
-							<option>1958</option>
-							<option>1957</option>
-							<option>1956</option>
-							<option>1955</option>
-							<option>1954</option>
-							<option>1953</option>
-							<option>1952</option>
-							<option>1951</option>
-							<option>1950</option>
-							<option>1949</option>
-							<option>1948</option>
-							<option>1947</option>
-							<option>1946</option>
-							<option>1945</option>
-							<option>1944</option>
-							<option>1943</option>
-							<option>1942</option>
-							<option>1941</option>
-							<option>1940</option>
-							<option>1939</option>
-							<option>1938</option>
-							<option>1937</option>
-							<option>1936</option>
-							<option>1935</option>
-							<option>1934</option>
-							<option>1933</option>
-							<option>1932</option>
-							<option>1931</option>
-							<option>1930</option>
-							<option>1929</option>
-							<option>1928</option>
-							<option>1927</option>
-							<option>1926</option>
-							<option>1925</option>
-							<option>1924</option>
-							<option>1923</option>
-							<option>1922</option>
-							<option>1921</option>
-							<option>1920</option>
-						</select>
-					</div>
-					<div class="address">
-						<span>Autor</span>
-						<input class="inpAutor" type="text" name="txtAutor" tabindex="6" required="" disabled="" value="Dario Valdes">
-					</div>
-					<div class="address">
-						<span>Texto completo</span>
-						<textarea class="textareaTexto" type="text" tabindex="7" name="txtDescripcion" rows="20" required="">El presidente de México fue hallado sin vida en un motel del Estado de Mèxico a temprana hora del día por la mucama del lugar de nombre Teresa Madrigal Suarez que relató a FeikNews que el cuerpo mostraba signos de chupetones y la causa del fallecimiento del ahora occiso fue por autoahorcamiento erotico por medio de un cinturón que se cree que perteneció a su amante Luis Videgaray. Informa FeikNews</textarea>
-					</div>
-					<div class="address new">
-						<input name="inpGuardarNoti" type="submit" value="Actualizar" tabindex="8">
-					</div>
-				</form>
-			</div>
-			<div class="clearfix"></div>
+					</div>			-->
+				</div>
+			</form>
 		</div>
+		<div class="clearfix"></div>
 	</div>
+</div>
 
-	<?php
-	include_once("footer.php");
-	?>
+<?php
+include_once("footer.php");
+?>
+
+<script>
+function getSeccion() {
+    var x = document.getElementById("campoIdSeccion");
+    x = x.options[x.selectedIndex].text;
+    document.getElementById("campoTextSeccion").value = x;
+}
+</script>
 </body>
 </html>

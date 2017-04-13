@@ -1,5 +1,31 @@
 <!DOCTYPE HTML>
-<?  error_reporting(E_ALL); ?>
+<?php  error_reporting(E_ALL);
+include("conexionBD.php");
+require_once "DVNoticia.php";
+$connection = conectarBD();
+error_reporting(E_ALL);
+$querySelect = "CALL obtenerNoticiasNOValidadas()";
+$resultQuery = mysqli_query($connection, $querySelect) or die (mysqli_error($connection));
+mysqli_close($connection);
+
+if ($resultQuery->num_rows) {
+	$rows = $resultQuery->fetch_all(MYSQLI_ASSOC);
+	$arrayNoticias = array();
+	foreach ($rows as $row) {
+		$arrayNoticias[count($arrayNoticias)] = new DVNoticia(
+			$row['idNoticia'], 
+			$row['titulo'], 
+			'', 
+			$row['seccion'],
+			$row['idSeccion'],
+			$row['fecha'],
+			'',
+			$row['autor'],
+			$row['idUsuario'],
+			'');
+	}
+}
+?>
 <html>
 <head>
 	<title>Noticias sin publicar</title>
@@ -15,40 +41,24 @@
 	<div class="panelEdicion">
 		<div class="container">
 			<div class="divColumn">
-				<h3>Noticias pendientes por publicar</h3>
+				<h3>Noticias pendientes de publicar</h3>
 				<br>
 				<div class="listaNoticias">
 					<ul class="ulListaNoticias">
-						<li class="elementLista">
-							<div class="divElementNoti" href="editarNoticia.php">
-								<a class="txtTituloNV" href="editarNoticia.php">Muere Lord Peña por autoahorcamiento erotico<a/>
-								<br>
-								<span>Autor: </span>
-								<span class="txtAutorNV">Dario V</span>
-								<span>Fecha: </span>
-								<span class="txtFechaNV">05 Febrero 2017</span>
-							</div>
-						</li>
-						<li>
+						<?php
+						for ($i=0; $i < count($arrayNoticias); $i++) {
+							$elemento = $arrayNoticias[$i]; ?>
+							<li class="elementLista">
 							<div class="divElementNoti">
-								<a class="txtTituloNV"  href="editarNoticia.php">Hombre que le armaba en el futbol se lamenta de no ser hoy millonario porque se shingo la rodilla</a>
-								<br>
-								<span>Autor: </span>
-								<span class="txtAutorNV">Dario V</span>
-								<span>Fecha: </span>
-								<span class="txtFechaNV">05 Febrero 2017</span>
-							</div>						
-						</li>
-						<li>
-							<div class="divElementNoti">
-								<a class="txtTituloNV"  href="editarNoticia.php">Hombre que le armaba en el futbol se lamenta de no ser hoy millonario porque se shingo la rodilla</a>
-								<br>
-								<span>Autor: </span>
-								<span class="txtAutorNV">Dario V</span>
-								<span>Fecha: </span>
-								<span class="txtFechaNV">05 Febrero 2017</span>
+							<a class="txtTituloNV"  href="editarNoticia.php?id=<?php echo $elemento->idNoticia; ?>"><?php echo $elemento->titulo; ?><a/>
+							<br>
+							<span>Reportero: </span>
+							<a class="txtAutorNV" href="perfil.php?id=<?php echo $elemento->idUsuario; ?>"><?php echo $elemento->autor; ?></a>
+							<span>Última actualización: </span>
+							<span class="txtFechaNV"><?php echo $elemento->fecha; ?></span>
 							</div>
-						</li>
+							</li>
+						<?php } ?>
 					</ul>
 				</div>
 			</div>			

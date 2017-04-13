@@ -1,8 +1,34 @@
 <!DOCTYPE HTML>
-<?  error_reporting(E_ALL); ?>
+<?php  error_reporting(E_ALL);
+include("conexionBD.php");
+require_once "DVNoticia.php";
+$idNoticia = $_GET['id'];
+$connection = conectarBD();
+error_reporting(E_ALL);
+$querySelect = "CALL obtenerNoticiaCompletaById('$idNoticia')";
+$resultQuery = mysqli_query($connection, $querySelect) or die (mysqli_error($connection));
+mysqli_close($connection);
+
+if ($resultQuery->num_rows) {
+    $rows = $resultQuery->fetch_all(MYSQLI_ASSOC);
+    foreach ($rows as $row) {
+        $noticiaComplete = new DVNoticia(
+        	$row['idNoticia'],
+        	$row['titulo'],
+        	$row['descripcion'],
+        	$row['seccion'],
+        	$row['idSeccion'],
+        	$row['fecha'],
+        	$row['texto'],
+        	$row['autor'],
+        	$row['idUsuario'],
+        	$row['isPublica']);
+    }
+}
+?>
 <html>
 <head>
-	<title>Detalle</title>
+	<title><?php echo $noticiaComplete->titulo;?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Noticias, Web Noticias, Telediario" />
@@ -16,13 +42,14 @@
 			<div class="mag-inner">
 				<div class="col-md-8 mag-innert-left">
 					<div class="single-left-grid">
-						<img src="images/single.jpg" alt="">
-						<h4>Aliquam dapibus tincidunt metus. Praesent justo dolor, lobortis quis, lobortis dignissim, pulvinar ac, lorem.</h4>
-						<p class="text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla dui. Fusce feugiat malesuada odio. Morbi nunc odio, gravida at, cursus nec, luctus a, lorem. Maecenas tristique orci ac sem. Duis ultricies pharetra magna. Donec accumsan malesuada orci. Donec sit amet eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Mauris fermentum dictum magna. Sed laoreet aliquam leo. Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis. Integer rutrum ante eu lacus.</p>
+						<img src="images/placeholder.png" alt="">
+						<h2><?php echo $noticiaComplete->titulo; ?></h2>
+						<h4><?php echo $noticiaComplete->descripcion; ?></h4>
+						<p class="text"> <?php echo $noticiaComplete->textoCompleto; ?></p>
 						<div class="single-bottom">
 							<ul>
-								<li>Credito: <a href="#">Dario V</a></li>
-								<li>16 de febrero de 2017</li>
+								<li><span>Reportero:</span> <a href="perfil.php?id=<?php echo $noticiaComplete->idUsuario; ?>"><?php echo $noticiaComplete->autor; ?></a></li>
+								<li><span>Fecha de publicacion </span><?php echo $noticiaComplete->fecha; ?></li>
 								<li><a href="#">5 Comments</a></li>
 							</ul>
 						</div>

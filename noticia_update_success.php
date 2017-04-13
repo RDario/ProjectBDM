@@ -6,10 +6,10 @@ $connection = conectarBD();
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>Subiendo noticia</title>
+	<title>Actualizando noticia</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="refresh" content="6, URL='panelNoticia.php'">
+	<meta http-equiv="refresh" content="5, URL='panelNoticia.php'">
 </head>
 <body>
 	<br>
@@ -21,7 +21,6 @@ $connection = conectarBD();
 	$campoDescripcion = $_POST['txtDescripcion'];
 	$campoAutor = $_POST['txtAutor'];
 	$campoTextoCompleto = $_POST['txtTextoCompleto'];
-	$campoIsPublica = 0;
 
 	$querySeccion = "CALL obtenerSeccionById($campoIdSeccion)";
 	$resultQuery = mysqli_query($connection, $querySeccion) or die ("Hubo un error al consultar la base de datos");
@@ -31,6 +30,7 @@ $connection = conectarBD();
 		foreach ($rows as $row) {
 			$campoSeccion = $row['nombreSeccion'];
 		}
+
 		mysqli_next_result($connection);
 		$queryInsert = "CALL insertNoticia(
 			'$campoTitulo',
