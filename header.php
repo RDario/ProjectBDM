@@ -1,8 +1,12 @@
-<?php
+<?php 
 SESSION_START();
+error_reporting(E_ALL);
+if (isset($_SESSION["idULog"])) {
+	$idUsuario = $_SESSION["idULog"];
+	echo $idUsuario;
+}
 ?>
 <!DOCTYPE HTML>
-<?  error_reporting(E_ALL); ?>
 <html>
 <head>
 	<title>Header</title>
@@ -27,7 +31,7 @@ SESSION_START();
 								$tipoUser = $_SESSION["tipoULog"];
 								if (strcmp($tipoUser, "Administrador") == 0 || strcmp($tipoUser, "Reportero") == 0) {
 									print_r('<li><a href="panelNoticia.php">Subir noticia</a></li>
-											<li><a href="listadoNoticias.php">Noticias sin publicar</a></li>');
+										<li><a href="listadoNoticias.php">Noticias sin publicar</a></li>');
 								}
 							} ?>
 						</ul>
@@ -36,18 +40,27 @@ SESSION_START();
 								<?php
 								if (isset($_SESSION["nombreULog"])) {
 									$nomUser = $_SESSION["nombreULog"]; ?>
-									<a id="txtCuadroPerfil" href="perfil.php">Hola <?php echo "$nomUser"; ?><a/>
-										<?php } else {
-											print_r('<a href="registro-login.php">Inicia sesión aquí<a/>');
-										} ?>
-									</span>
-									<img id="imgCuadroPerfil" src="images/avatar.jpg" style="width: 50px; height: 50px;" >
+									<a id="txtCuadroPerfil" href="perfil.php?id=<?php echo '$idUsuario'; ?>">Hola <?php echo "$nomUser"; ?><a/>
+										<img id="imgCuadroPerfil" src="images/avatar.jpg" style="width: 50px; height: 50px;" >
+										<a id="txtDeslog" href="" onclick="">Cerrar sesión<a/>
+											<?php } else {
+												print_r('<a href="registro-login.php">Inicia sesión aquí<a/>');
+											} ?>
+										</span>
+									</div>
 								</div>
+								<!--/.header-->
 							</div>
-							<!--/.header-->
-						</div>
-					</nav>
+						</nav>
+					</div>
 				</div>
-			</div>
-		</body>
-		</html>
+
+				<script>
+				function clickDeslog() {
+					<?php
+					SESSION_DESTROY();
+					?>
+				}
+				</script>
+			</body>
+			</html>

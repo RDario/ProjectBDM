@@ -1,5 +1,5 @@
-<!DOCTYPE HTML>
-<?php  error_reporting(E_ALL);
+<?php
+error_reporting(E_ALL);
 include("conexionBD.php");
 require_once "DVNoticia.php";
 $connection = conectarBD();
@@ -26,6 +26,7 @@ if ($resultQuery->num_rows) {
     }
 }
 ?>
+<!DOCTYPE HTML>
 <html>
 <head>
     <title>Inicio</title>

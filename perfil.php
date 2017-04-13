@@ -31,7 +31,7 @@
 					<div class="divBtnEditar">
 						<button id="inpEditar" class="btnEditar" type="button" onclick="functionIsDisabled('inpEditar');">Editar</button>
 						<button id="inpEliminar" class="btnEditar" type="button" onclick="">Eliminar cuenta</button>
-					</div>		
+					</div>
 					<form>
 						<div class="address">
 							<span>Tipo de cuenta</span>

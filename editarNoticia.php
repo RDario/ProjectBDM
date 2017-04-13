@@ -57,8 +57,9 @@ if ($resultQuery->num_rows) {
 		<div class="container">
 			<div class="divColumn">
 				<h3>Editar noticia</h3>
-				<form action="noticia_success_page.php" method="POST">
+				<form action="noticia_update_page.php" method="POST">
 					<div class="address">
+						<input class="inpTitulo" type="hidden" name="txtIdNoticia" required="" value="<?php echo $noticiaComplete->idNoticia; ?>">
 						<span>Validar noticia</span>
 						<select class= "selectValidacion" name="txtValidacion" tabindex="9" required="">
 							<?php
@@ -105,7 +106,7 @@ if ($resultQuery->num_rows) {
 						</div>					
 						<div class="address">
 							<span>Texto completo</span>
-							<textarea class="textareaTexto" type="text" tabindex="8" name="txtDescripcion" rows="20" required=""><?php echo $noticiaComplete->textoCompleto; ?></textarea>
+							<textarea class="textareaTexto" type="text" tabindex="8" name="txtTextoCompleto" rows="20" required=""><?php echo $noticiaComplete->textoCompleto; ?></textarea>
 						</div>
 						<div class="address new">
 							<input name="inpGuardarNoti" type="submit" value="Actualizar" tabindex="9">
