@@ -10,8 +10,10 @@ class DVNoticia {
 	var $autor;
 	var $idUsuario;
 	var $isPublica;
+	var $isEspecial;
+	var $cintillo;
 
-	function __construct($idNoticia, $titulo, $descripcion, $seccion, $idSeccion, $fecha, $textoCompleto, $autor, $idUsuario, $isPublica) {
+	function __construct($idNoticia, $titulo, $descripcion, $seccion, $idSeccion, $fecha, $textoCompleto, $autor, $idUsuario, $isPublica, $isEspecial, $cintillo) {
 		$this -> idNoticia = $idNoticia;
 		$this -> titulo = $titulo;
 		$this -> descripcion = $descripcion;
@@ -22,6 +24,8 @@ class DVNoticia {
 		$this -> autor = $autor;
 		$this -> idUsuario = $idUsuario;
 		$this -> isPublica = $isPublica;
+		$this -> isEspecial = $isEspecial;
+		$this -> cintillo = $cintillo;
 	}
 }
 ?>

@@ -22,6 +22,8 @@ $connection = conectarBD();
 	$campoAutor = $_POST['txtAutor'];
 	$campoTextoCompleto = $_POST['txtTextoCompleto'];
 	$campoIsPublica = 0;
+	$campoIsEspecial = (int) $_POST['txtIsEspecial'];
+	$campoCintillo = $_POST['txtCintillo'];
 
 	$querySeccion = "CALL obtenerSeccionById($campoIdSeccion)";
 	$resultQuery = mysqli_query($connection, $querySeccion) or die ("Hubo un error al consultar la base de datos");
@@ -40,7 +42,9 @@ $connection = conectarBD();
 			'$campoSeccion',
 			'$campoIdUsuario',
 			'$campoAutor',
-			'$campoIsPublica')";
+			'$campoIsPublica',
+			'$campoIsEspecial',
+			'$campoCintillo')";
 
 $resultQueryInsert = mysqli_query($connection, $queryInsert) or die (mysqli_error($connection));
 mysqli_close($connection);

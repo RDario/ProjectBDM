@@ -12,6 +12,60 @@ body a {
 	font-family: 'Roboto-Regular';
 }
 
+.divCajaComentario {
+  background-color: #f8f8f8;
+}
+
+.divCajaComentario span {
+  font-size: 12px;
+}
+
+.divCajaComentario p {
+  font-size: 16px;
+}
+
+.divCajaComentario hr {
+  color: #282828;
+}
+
+.imgComentario {
+  width: 40px; 
+  height: 40px;
+  padding: 4px;
+}
+
+.listaNewsHorizontal {
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.divHeaderNews {
+  width: 100%;
+  background-color: #333333;
+}
+
+.divNotiHeader {
+  text-align: left;
+}
+
+.listaNewsHorizontal li {
+  width: 310px;
+  display: inline-block;
+}
+
+.listaNewsHorizontal img {
+  width: 100px;
+  height: 100px;
+  float: left;
+}
+
+.listaNewsHorizontal a {
+  color: #fff;
+}
+
 ul {
   list-style-type: none;
 }
@@ -142,12 +196,13 @@ label{
   height: 50px !important;
 }
 
-#txtCuadroPerfil {
-  font-size: 24px;
+.imgMediasImg {
+  width: 220px;
+  height: 200px;
 }
 
-#txtDeslog {
-  font-size: 16px;
+#txtCuadroPerfil {
+  font-size: 24px;
 }
 
 /*------------------------------ MAIN CONTENT --------------------------*/
@@ -221,7 +276,7 @@ img.imgNoticia{
 span.txtTitulo {
   width: 100%;
   font-size: 24px;
-  color: #EE3030;
+  color: #fff;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -229,12 +284,31 @@ span.txtTitulo {
 p.txtDescripcion {
   width: 100%;
   font-size: 18px;
-  color: #fff;
+  color: #D8D8D8;
   padding-left: 10px;
   padding-right: 10px;
+  display: inline-block;
+}
+
+p.txtCredito {
+  width: 100%;
+  font-size: 15px;
+  color: #f8f8f8;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: inline-block;
+}
+
+span.txtFecha {  
+  font-size: 15px;
+  color: #D8D8D8;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: inline-block; 
 }
 
 a.leerMas {
+  color: #EE3030;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -586,9 +660,11 @@ address {
  font-size: 0.9em;
  line-height: 1.8em;
 }
+
 .contact-grid {
   padding-left: 0;
 }
+
 address a {
  color: #737171;
  font-size: 1em;
@@ -725,8 +801,8 @@ h3.tittle.find {
 /*------------------------------ PANEL EDICION --------------------------*/
 
 .divColumn {
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 10%;
+  margin-right: 10%;
   padding-bottom: 10px;
 }
 
@@ -855,7 +931,7 @@ h3.tittle.find {
   padding: 0px;
   border: 1px solid #EAE5E5;
   outline: none;
-  width: 20%;
+  width: 30%;
   font-size: 14px;
   padding: 10px 10px;
   color:#777;
@@ -886,6 +962,8 @@ h3.tittle.find {
 }
 
 .imgPortada {
+  width: 100%;
+  max-height: 500px;
   max-width: 100%;
   position: absolute;
 }
@@ -935,4 +1013,100 @@ h3.tittle.find {
 .copyright p a{
  color:#ee5656;
  margin: 0;
+}
+
+/*---------------------- SLIDESHOW DETALLE NOTICIA ---------------------*/
+
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 450px;
+  position: relative;
+  margin: auto;
+}
+
+.mySlides {
+    display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  pointer-events: none;
+  cursor:none;
+  height: 13px;
+  width: 13px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 4s;
+  animation-name: fade;
+  animation-duration: 4s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
 }

@@ -1,12 +1,8 @@
-<?php 
+<?php
 SESSION_START();
-error_reporting(E_ALL);
-if (isset($_SESSION["idULog"])) {
-	$idUsuario = $_SESSION["idULog"];
-	echo $idUsuario;
-}
 ?>
 <!DOCTYPE HTML>
+<?  error_reporting(E_ALL); ?>
 <html>
 <head>
 	<title>Header</title>
@@ -28,39 +24,36 @@ if (isset($_SESSION["idULog"])) {
 						<ul class="nav navbar-nav">
 							<?php
 							if (isset($_SESSION["tipoULog"])) {
+								$idUser = $_SESSION['idULog'];
 								$tipoUser = $_SESSION["tipoULog"];
-								if (strcmp($tipoUser, "Administrador") == 0 || strcmp($tipoUser, "Reportero") == 0) {
-									print_r('<li><a href="panelNoticia.php">Subir noticia</a></li>
-										<li><a href="listadoNoticias.php">Noticias sin publicar</a></li>');
-								}
+								if (strcmp($tipoUser, "Administrador") == 0 || strcmp($tipoUser, "Reportero") == 0) { ?>
+								<li><a href="panelNoticia.php">Subir noticia</a></li>
+								<li><a href="listadoNoticias.php?id=<?php echo $idUser;?>&tipo=<?php echo $tipoUser;?>">Noticias sin publicar</a></li>
+								<?php }
 							} ?>
 						</ul>
 						<div id="divCuadroPerfil">
 							<span id="txtCuadroPerfil">
 								<?php
 								if (isset($_SESSION["nombreULog"])) {
-									$nomUser = $_SESSION["nombreULog"]; ?>
-									<a id="txtCuadroPerfil" href="perfil.php?id=<?php echo '$idUsuario'; ?>">Hola <?php echo "$nomUser"; ?><a/>
-										<img id="imgCuadroPerfil" src="images/avatar.jpg" style="width: 50px; height: 50px;" >
-										<a id="txtDeslog" href="" onclick="">Cerrar sesión<a/>
-											<?php } else {
-												print_r('<a href="registro-login.php">Inicia sesión aquí<a/>');
-											} ?>
-										</span>
-									</div>
+									$nomUser = $_SESSION['nombreULog']; ?>
+									<a id="txtCuadroPerfil" href="perfil.php?id=<?php echo $idUser;?>">Hola <?php echo "$nomUser"; ?><a/>
+										<?php if (isset($_SESSION['imgAvatarULog'])) { 
+											$imgAvatarLog = $_SESSION['imgAvatarULog']; ?>
+											<img id="imgCuadroPerfil" src="<?php echo 'images/profile/'.$imgAvatarLog; ?>" style="width: 50px; height: 50px;" >
+											<?php } else { ?>
+											<img id="imgCuadroPerfil" src="images/avatar.jpg" style="width: 50px; height: 50px;" >
+											<?php }
+										} else {
+											print_r('<a href="registro-login.php">Inicia sesión aquí<a/>');
+										} ?>
+									</span>
 								</div>
-								<!--/.header-->
 							</div>
-						</nav>
-					</div>
+							<!--/.header-->
+						</div>
+					</nav>
 				</div>
-
-				<script>
-				function clickDeslog() {
-					<?php
-					SESSION_DESTROY();
-					?>
-				}
-				</script>
-			</body>
-			</html>
+			</div>
+		</body>
+		</html>

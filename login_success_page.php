@@ -32,6 +32,7 @@ $connection = conectarBD();
 			$_SESSION['apellidosULog']=$row['apellidos'];
 			$_SESSION['correoULog']=$row['correo'];
 			$_SESSION['tipoULog']=$row['tipoUsuario'];
+			$_SESSION['imgAvatarULog']=$row['imgAvatar'];
 		}
 	}
 	echo "<br><br>Haz iniciado sesión exitosamente. Redirigiendose a";
