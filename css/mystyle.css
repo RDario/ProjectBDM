@@ -12,6 +12,12 @@ body a {
 	font-family: 'Roboto-Regular';
 }
 
+.linkOrderNews {
+  display: inline-block;
+  color: #333;
+  background-color: #ee5656;
+}
+
 .divCajaComentario {
   background-color: #f8f8f8;
 }
