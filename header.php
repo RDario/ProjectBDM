@@ -43,8 +43,9 @@ SESSION_START();
 											<img id="imgCuadroPerfil" src="<?php echo 'images/profile/'.$imgAvatarLog; ?>" style="width: 50px; height: 50px;" >
 											<?php } else { ?>
 											<img id="imgCuadroPerfil" src="images/avatar.jpg" style="width: 50px; height: 50px;" >
-											<?php }
-										} else {
+											<?php } ?>
+											<a id="txtDeslog" href="" onclick="">Cerrar sesión<a/>
+										<?php } else {
 											print_r('<a href="registro-login.php">Inicia sesión aquí<a/>');
 										} ?>
 									</span>
@@ -54,6 +55,12 @@ SESSION_START();
 						</div>
 					</nav>
 				</div>
+				<script>
+				function clickDeslog() {
+					<?php					
+					?>
+				}
+				</script>
 			</div>
 		</body>
 		</html>

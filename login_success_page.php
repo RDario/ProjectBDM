@@ -16,6 +16,7 @@ $connection = conectarBD();
 	<?php
 	$campoEmail = $_POST['txtEmail'];
 	$campoPassword = $_POST['txtPassword'];
+	$campoPassword = md5($campoPassword);
 
 	$querySelect = "CALL obtenerDatosLogin(
 	'$campoEmail',

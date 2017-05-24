@@ -30,6 +30,7 @@ $campoIdUsuario = (int) $_POST['txtIdUsuario'];
 	$campoPortada = $_POST['txtImgPortada'];
 	$nombreFileAvatar = $_FILES['inpImgPerfil']['name'];
 	$nombreFilePortada = $_FILES['inpImgPortada']['name'];
+	$campoPassword = md5($campoPassword);
 
 	if ($nombreFileAvatar != NULL && $nombreFileAvatar != '') {
 		$nomTmpAvatar = $_FILES['inpImgPerfil']['tmp_name'];

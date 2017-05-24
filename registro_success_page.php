@@ -26,6 +26,7 @@ $connection = conectarBD();
 		$campoTipoU = 'Normal';
 	}
 	$campoNacimiento = $campoNacDia."-".$campoNacMes."-".$campoNacAnio;
+	$campoContrasenia = md5($campoContrasenia);
 
 	$queryInsert = "CALL insertUsuario(
 	'$campoNombre',
